@@ -1,6 +1,7 @@
 import subprocess
 
 while True:
-	subprocess.call(["git","pull","origin","master"])
-	subprocess.call(["python3", "besiegebot.py"])
-	
+	subprocess.run(["git","pull","origin","master"])
+	result = subprocess.run(["python3", "sourcecube.py"])
+	if result.returncode != 0:
+		break
