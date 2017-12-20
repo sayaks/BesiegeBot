@@ -36,8 +36,7 @@ async def check_screenshot(message):
 	if len(message.attachments) > 0:
 		return
 	for embed in message.embeds:
-		print(embed.type)
-		if embed.type == "photo":
+		if print(embed['type']) == "image":
 			return
 	
 	await client.delete_message(message)
@@ -53,7 +52,7 @@ async def game_status_per_message(message):
 	messages_since_startup += 1
 	
 async def reload(message):
-	client.delete_message(message)
+	await client.delete_message(message)
 	if message.author.top_role.id == '261519756417433601':
 		print("logging out...")
 		await client.logout()
