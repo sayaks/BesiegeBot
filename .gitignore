@@ -1,5 +1,6 @@
-# Token
+# Sensitive Data
 token.txt
+karma.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -3,6 +3,8 @@ import asyncio
 import random
 import re
 
+import karma
+
 with open("./token.txt") as f:
 	TOKEN = f.read()
 
@@ -30,6 +32,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+	if message.author.bot:
+		return
 	for command in commands:
 		if command[0](message):
 			print("Executing {0}".format(command[1]))
@@ -79,9 +83,10 @@ def ip_check(message):
 	return re.search(ip_reg, message.content) != None
 
 async def remove_ip(message):
+	author = message.author
 	await client.delete_message(message)
 	await client.send_message(
-		message.author, 
+		author, 
 		(
 			f"Hi, you posted your ip in {message.channel.name}, which isn't a "
 			f"Multiverse channel.\nAs your god I command you to post your IP "
@@ -92,11 +97,30 @@ async def remove_ip(message):
 		)
 	)
 	
+async def parse_karma(message):
+	karma.give_karma(message.author, karma.get_mentions(message))
+
+async def send_karma(message):
+	author = message.author
+	await client.delete_message(message)
+
+	data = karma.get_data(author)
+	await client.send_message(
+		author, 
+		(
+			f"Karma: {data['karma']}\n"
+			f"Karma Given: {data['karma-given']}\n"
+		)
+	)
+	
+	
 commands.append((lambda m: m.channel.name == 'screenshots', check_screenshot))
 
 commands.append((lambda m: m.content == '!reload', reload))
+commands.append((lambda m: m.content == '!karma', send_karma))
 
 commands.append((ip_check, remove_ip))
+commands.append((karma.check_karma_legal, parse_karma))
 
 DEFAULT = game_status_per_message
 
