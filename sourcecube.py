@@ -33,8 +33,14 @@ async def on_message(message):
 		await DEFAULT(message)
 
 async def check_screenshot(message):
-	if len(message.attachments) == 0:
-		await client.delete_message(message)
+	if len(message.attachments) > 0:
+		return
+	for embed in message.embeds:
+		print(embed.type)
+		if embed.type == "photo":
+			return
+	
+	await client.delete_message(message)
 		
 async def game_status_per_message(message):
 	global messages_since_startup
