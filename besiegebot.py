@@ -43,6 +43,13 @@ async def game_status_per_message(message):
 
 commands.append((lambda m: m.channel.name == 'screenshots', check_screenshot))
 
-commands.append((lambda m: m.channel.name != 'bot-log', ))
+commands.append((
+	lambda m: m.channel.name != 'bot-log', 
+	game_status_per_message
+))
 
-client.run(TOKEN)
+def run():
+	client.run(TOKEN)
+
+if __name__ == "__main__":
+	client.run(TOKEN)
