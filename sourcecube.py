@@ -1,6 +1,7 @@
 import discord
 import asyncio
 
+import config
 import mundane
 import karma
 import f1984
@@ -13,13 +14,16 @@ with open("./god_users.txt") as f:
 	
 DEFAULT = mundane.game_status_per_message
 mundane.LOGOUT = [
+	config.save,
 	karma.save,
 ]
+back_log = []
 
 commands = [
 	(lambda m: m.channel.name == 'screenshots', f1984.check_screenshot),
 
 	(lambda m: m.content == '!reload', mundane.reload),
+	(lambda m: m.content == '!set_log', mundane.set_log_channel),
 	(lambda m: m.content == '!karma', karma.send_karma_score),
 	
 	(f1984.ip_check, f1984.remove_ip),
@@ -30,10 +34,22 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    client.log('Logged in as')
-    client.log(client.user.name)
-    client.log(client.user.id)
-    client.log('------')
+	client.log(
+		f'Logged in as\n{client.user.name}\n{client.user.id}\n------'
+	)
+	LOG_CHANNEL = None
+	while True:
+		await asyncio.sleep(5)
+		if mundane.LOG_CHANNEL_ID == None:
+			LOG_CHANNEL = None
+		elif LOG_CHANNEL == None or LOG_CHANNEL.id != mundane.LOG_CHANNEL_ID:
+			LOG_CHANNEL = client.get_channel(mundane.LOG_CHANNEL_ID)
+		
+		while len(back_log)>0 and LOG_CHANNEL != None:
+			await client.send_message(LOG_CHANNEL, back_log.pop(0))
+			await asyncio.sleep(0.2)
+			
+			
 
 @client.event
 async def on_message(message):
@@ -42,7 +58,7 @@ async def on_message(message):
 		
 	for command in commands:
 		if command[0](message):
-			print("Executing {0}".format(command[1]))
+			client.log("Executing {0}".format(command[1]))
 			await command[1](client, message)
 			return
 	if DEFAULT != None:
@@ -56,7 +72,7 @@ async def delete_message(message):
 		return
 	if message.channel.name.startswith("bot"):
 		return
-	print(
+	client.log(
 		f'Deleting message "{message.content}" '
 		f'by {message.author} '
 		f'in {message.channel}'
@@ -67,6 +83,9 @@ client.delete_message = delete_message
 	
 def log(s):
 	print(s)
+	if mundane.LOG_CHANNEL_ID != None:
+		back_log.append(s)
+	
 client.log = log
 
 def sent_by_admin(message):
