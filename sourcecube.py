@@ -65,7 +65,7 @@ async def delete_message(message):
 client.__delete_message__ = client.delete_message
 client.delete_message = delete_message
 	
-async def log(s):
+def log(s):
 	print(s)
 client.log = log
 
