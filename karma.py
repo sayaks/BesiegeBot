@@ -1,6 +1,7 @@
 import json
 import re
 import time
+import asyncio
 
 user_data = json.load(open('karma.json'))
 
@@ -13,6 +14,35 @@ karma_matches = [
 	"thanks",
 	"thankyou",
 ]
+
+def save():
+	with open('karma.json', 'w') as f:
+		json.dump(user_data, f)
+
+async def send_karma_score(client, message):
+	author = message.author
+	await client.delete_message(message)
+
+	data = get_data(author)
+	await client.send_message(
+		author, 
+		(
+			f"Karma: {data['karma']}\n"
+			f"Karma Given: {data['karma-given']}\n"
+		)
+	)
+
+def check_karma_legal(message):
+	return 	(
+			has_thanks(message.content)
+		and len(get_mentions(message)) > 0
+		and not_on_cooldown(message.author)
+	)
+
+async def parse_karma(client, message):
+	give_karma(message.author, get_mentions(message))
+
+	
 
 def get_data(user):
 	data = user_data.get(
@@ -27,21 +57,13 @@ def get_data(user):
 		}
 		user_data[user.id] = data
 	return data
-	
-	
 
 def has_thanks(content):
 	for m in karma_matches:
 		if re.search(f"([^a-zA-Z]|^){m}([^a-zA-Z]|$)", content):
 			return True
 	return False
-
-def not_on_cooldown(user):
-	data = get_data(user)
-	if data['last-karma'] == None:
-		return True
-	return time.time()-data['last-karma'] > cooldown
-
+	
 def get_mentions(message):
 	members = []
 	for member in message.mentions:
@@ -49,6 +71,13 @@ def get_mentions(message):
 			continue
 		members.append(member)
 	return members
+
+def not_on_cooldown(user):
+	data = get_data(user)
+	if data['last-karma'] == None:
+		return True
+	return time.time()-data['last-karma'] > cooldown
+
 	
 def give_karma(from_user, to_users):
 	print("{0} gave karma to {1}".format(
@@ -63,14 +92,3 @@ def give_karma(from_user, to_users):
 	for to_user in to_users:
 		t = get_data(to_user)
 		t['karma'] += 1
-	
-def check_karma_legal(message):
-	return 	(
-			has_thanks(message.content)
-		and len(get_mentions(message)) > 0
-		and not_on_cooldown(message.author)
-	)
-	
-def save():
-	with open('karma.json', 'w') as f:
-		json.dump(user_data, f)
