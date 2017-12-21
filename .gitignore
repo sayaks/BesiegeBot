@@ -1,6 +1,7 @@
 # Sensitive Data
 token.txt
 karma.json
+god_users.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

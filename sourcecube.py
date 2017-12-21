@@ -11,7 +11,13 @@ with open("./token.txt") as f:
 with open("./statuses.txt") as f:
 	STATUSES = f.read().splitlines()
 	
+with open("./god_users.txt") as f:
+	GOD_USERS = f.read().splitlines()
+	
 DEFAULT = None
+LOGOUT = [
+	karma.save,
+]
 	
 commands = []
 	
@@ -42,6 +48,13 @@ async def on_message(message):
 	if DEFAULT != None:
 		await DEFAULT(message)
 
+async def delete_message(message):
+	if message.channel.is_private:
+		return
+	print(f'Deleting message "{message.content}" by {message.author}')
+	await client.delete_message(message)
+		
+
 async def check_screenshot(message):
 	if len(message.attachments) > 0:
 		return
@@ -49,7 +62,7 @@ async def check_screenshot(message):
 		if print(embed['type']) == "image":
 			return
 	
-	await client.delete_message(message)
+	await delete_message(message)
 		
 async def game_status_per_message(message):
 	global messages_since_startup
@@ -63,9 +76,16 @@ async def game_status_per_message(message):
 	
 async def reload(message):
 	print(f"{messages_since_startup} messages since startup")
-	await client.delete_message(message)
-	if message.author.top_role.id == '261519756417433601':
+	await delete_message(message)
+	print(message.author.id)
+	if (
+		message.author.id in GOD_USERS
+		if message.channel.is_private 
+		else message.author.top_role.id == '261519756417433601'
+	):
 		print("logging out...")
+		for l in LOGOUT:
+			l()
 		await client.logout()
 	else:
 		print(
@@ -84,7 +104,7 @@ def ip_check(message):
 
 async def remove_ip(message):
 	author = message.author
-	await client.delete_message(message)
+	await delete_message(message)
 	await client.send_message(
 		author, 
 		(
@@ -102,7 +122,7 @@ async def parse_karma(message):
 
 async def send_karma(message):
 	author = message.author
-	await client.delete_message(message)
+	awaitdelete_message(message)
 
 	data = karma.get_data(author)
 	await client.send_message(

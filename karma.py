@@ -70,3 +70,7 @@ def check_karma_legal(message):
 		and len(get_mentions(message)) > 0
 		and not_on_cooldown(message.author)
 	)
+	
+def save():
+	with open('karma.json', 'w') as f:
+		json.dump(user_data, f)
