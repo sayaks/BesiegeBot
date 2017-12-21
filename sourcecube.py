@@ -51,7 +51,11 @@ async def on_message(message):
 async def delete_message(message):
 	if message.channel.is_private:
 		return
-	print(f'Deleting message "{message.content}" by {message.author}')
+	print(
+		f'Deleting message "{message.content}" '
+		f'by {message.author} '
+		f'in {message.channel}'
+	)
 	await client.delete_message(message)
 		
 
