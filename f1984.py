@@ -16,6 +16,8 @@ async def check_screenshot(client, message):
 	await client.delete_message(message)
 
 def ip_check(message):
+	if message.channel.is_private:
+		return False
 	if message.channel.name == "looking-to-play":
 		return False
 	if message.channel.name.startswith("multiverse"):
