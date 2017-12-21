@@ -122,7 +122,7 @@ async def parse_karma(message):
 
 async def send_karma(message):
 	author = message.author
-	awaitdelete_message(message)
+	await delete_message(message)
 
 	data = karma.get_data(author)
 	await client.send_message(
