@@ -51,6 +51,10 @@ async def on_message(message):
 async def delete_message(message):
 	if message.channel.is_private:
 		return
+	if message.channel.name == "administration":
+		return
+	if message.channel.name.startswith("bot"):
+		return
 	print(
 		f'Deleting message "{message.content}" '
 		f'by {message.author} '
