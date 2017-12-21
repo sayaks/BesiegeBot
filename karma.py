@@ -80,7 +80,7 @@ def not_on_cooldown(user):
 
 	
 def give_karma(from_user, to_users):
-	print("{0} gave karma to {1}".format(
+	log("{0} gave karma to {1}".format(
 		from_user,
 		[ str(to_user) for to_user in to_users ],
 	))

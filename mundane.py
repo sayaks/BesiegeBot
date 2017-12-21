@@ -9,6 +9,12 @@ LOGOUT = []
 messages_since_startup = 0
 
 async def game_status_per_message(client, message):
+	if message.channel.is_private:
+		client.log(
+			f'Recieved message "{message.content}" from {message.author}'
+		)
+		return
+
 	global messages_since_startup
 	if messages_since_startup % 200 == 0:
 		await client.change_presence(
@@ -19,15 +25,15 @@ async def game_status_per_message(client, message):
 	messages_since_startup += 1
 	
 async def reload(client, message):
-	print(f"{messages_since_startup} messages since startup")
+	client.log(f"{messages_since_startup} messages since startup")
 	await client.delete_message(message)
 	if (client.sent_by_admin(message)):
-		print("logging out...")
+		client.log("logging out...")
 		for l in LOGOUT:
 			l()
 		await client.logout()
 	else:
-		print(
+		client.log(
 			"{0} ({1}) tried to reload, but was denied".format(
 				message.author,
 				message.author.top_role,

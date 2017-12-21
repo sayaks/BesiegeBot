@@ -30,10 +30,10 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+    client.log('Logged in as')
+    client.log(client.user.name)
+    client.log(client.user.id)
+    client.log('------')
 
 @client.event
 async def on_message(message):
