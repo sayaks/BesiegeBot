@@ -5,6 +5,7 @@ import config
 import mundane
 import karma
 import f1984
+import leisure
 
 with open("./token.txt") as f:
 	TOKEN = f.read()
@@ -24,7 +25,11 @@ commands = [
 
 	(lambda m: m.content == '!reload', mundane.reload),
 	(lambda m: m.content == '!set_log', mundane.set_log_channel),
+	(lambda m: m.content == '!set_leisure', leisure.set_leisure_channel),
+	
 	(lambda m: m.content == '!karma', karma.send_karma_score),
+	
+	(lambda m: m.content.startswith('!hug '), leisure.hug_command),
 	
 	(f1984.ip_check, f1984.remove_ip),
 	(karma.check_karma_legal, karma.parse_karma),
