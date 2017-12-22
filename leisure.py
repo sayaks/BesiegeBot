@@ -13,13 +13,13 @@ async def hug_command(client, message):
 	await client.delete_message(message)
 	mentions = get_mentions(message)
 	if message.channel.id == OFF_TOPIC_ID and len(mentions) > 0:
-		mentioned_str = ', '.join([str(user) for user in mentions])
+		mentioned_str = ', '.join([user.name for user in mentions])
 		image = zerochan.get_pic("hug")
 		if image != None:
 			embed = discord.Embed(
 				title = 'A heartfelt hug',
 				type = 'rich',
-				description = f'{message.author} hugged {mentioned_str}',
+				description = f'{message.author.name} hugged {mentioned_str}',
 				url = image[0],
 			)
 			embed.set_image(url=image[1])
