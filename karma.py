@@ -59,6 +59,7 @@ def get_data(user):
 	return data
 
 def has_thanks(content):
+	content = content.lower()
 	for m in karma_matches:
 		if re.search(f"([^a-zA-Z]|^){m}([^a-zA-Z]|$)", content):
 			return True
