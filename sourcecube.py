@@ -3,10 +3,13 @@ import asyncio
 import re
 
 import config
+import commands
+
 import mundane
 import karma
 import f1984
 import leisure
+
 
 with open("./token.txt") as f:
 	TOKEN = f.read()
@@ -25,14 +28,34 @@ commands = [
 	(lambda m: m.channel.name == 'screenshots', f1984.check_screenshot),
 
 	
-	(lambda m: m.content == '!reload', mundane.reload),
-	(lambda m: m.content == '!set_log', mundane.set_log_channel),
-	(lambda m: m.content == '!set_leisure', leisure.set_leisure_channel),
+	commands.register(
+		'reload', 
+		mundane.reload, 
+		admin=True, leisure=False
+	),
+	commands.register(
+		'set_log', 
+		mundane.set_log_channel, 
+		admin=True, leisure=False
+	),
+	commands.register(
+		'set_leisure', 
+		commands.set_leisure_channel, 
+		admin=True, leisure=False
+	),
 	
-	(lambda m: m.content == '!karma', karma.send_karma_score),
+	commands.register(
+		'karma', 
+		karma.send_karma_score, 
+		leisure=False
+	),
 	
-	(lambda m: m.content.startswith('!zc'), leisure.zerochan_command),
-	(lambda m: m.content.startswith('!hug '), leisure.hug_command),
+	commands.register(
+		'zc', 
+		leisure.zerochan_command, 
+		admin=True
+	),
+	commands.register('hug', leisure.hug_command),
 	
 	(f1984.ip_check, f1984.remove_ip),
 	(karma.check_karma_legal, karma.parse_karma),

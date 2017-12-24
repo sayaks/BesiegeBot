@@ -34,35 +34,17 @@ async def game_status_per_message(client, message):
 	messages_since_startup += 1
 	messages_total += 1
 	
-async def reload(client, message):
+async def reload(client, message, prefix):
 	client.log(f"{messages_since_startup} messages since startup")
-	await client.delete_message(message)
-	if (client.sent_by_admin(message)):
-		client.log("logging out...")
-		for l in LOGOUT:
-			l()
-		await client.logout()
-	else:
-		client.log(
-			"{0} ({1}) tried to reload, but was denied".format(
-				message.author,
-				message.author.top_role,
-			)
-		)
+	client.log("logging out...")
+	for l in LOGOUT:
+		l()
+	await client.logout()
 
-async def set_log_channel(client, message):
-	await client.delete_message(message)
-	if (client.sent_by_admin(message)):
-		global LOG_CHANNEL_ID
-		client.log(
-			f"{message.author} set LOG_CHANNEL from "
-			f"{client.get_channel(LOG_CHANNEL_ID)} to {message.channel}"
-		)
-		LOG_CHANNEL_ID = message.channel.id
-	else:
-		client.log(
-			"{0} ({1}) tried to set log channel, but was denied".format(
-				message.author,
-				message.author.top_role,
-			)
-		)
+async def set_log_channel(client, message, prefix):
+	global LOG_CHANNEL_ID
+	client.log(
+		f"{message.author} set LOG_CHANNEL from "
+		f"{client.get_channel(LOG_CHANNEL_ID)} to {message.channel}"
+	)
+	LOG_CHANNEL_ID = message.channel.id

@@ -19,13 +19,10 @@ def save():
 	with open('karma.json', 'w') as f:
 		json.dump(user_data, f)
 
-async def send_karma_score(client, message):
-	author = message.author
-	await client.delete_message(message)
-
-	data = get_data(author)
+async def send_karma_score(client, message, prefix):
+	data = get_data(message.author)
 	await client.send_message(
-		author, 
+		message.author, 
 		(
 			f"Karma: {data['karma']}\n"
 			f"Karma Given: {data['karma-given']}\n"
