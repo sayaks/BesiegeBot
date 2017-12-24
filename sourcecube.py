@@ -80,7 +80,7 @@ async def delete_message(message):
 		return
 	if message.channel.name.startswith("bot"):
 		return
-	content = str.replace("```", "\```", message.content)
+	content = message.content.replace("```", "\```")
 	client.log(
 		f'Deleting message ```{content}``` '
 		f'by {message.author} '
