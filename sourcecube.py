@@ -106,7 +106,7 @@ async def on_message(message):
 				await command[1](client, message)
 			except Exception as e:
 				client.log(
-					f'Encountered an exception when running command:\n{e}'
+					f'Encountered an exception while running command:\n{e}'
 				)
 			return
 	if DEFAULT != None:

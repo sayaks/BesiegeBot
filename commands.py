@@ -1,5 +1,5 @@
 import config
-
+import discord
 
 PREFIX = '!'
 config.register(__name__, 'PREFIX')
