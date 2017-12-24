@@ -31,29 +31,34 @@ commands = [
 	commands.register(
 		'reload', 
 		mundane.reload, 
-		admin=True, leisure=False
+		admin=True, leisure=False,
 	),
 	commands.register(
 		'set_log', 
 		mundane.set_log_channel, 
-		admin=True, leisure=False
+		admin=True, leisure=False,
 	),
 	commands.register(
 		'set_leisure', 
 		commands.set_leisure_channel, 
-		admin=True, leisure=False
+		admin=True, leisure=False,
 	),
 	
 	commands.register(
+		'help',
+		commands.help_command,
+		leisure=False,
+	),
+	commands.register(
 		'karma', 
 		karma.send_karma_score, 
-		leisure=False
+		leisure=False,
 	),
 	
 	commands.register(
 		'zc', 
 		leisure.zerochan_command, 
-		admin=True
+		admin=True,
 	),
 	commands.register('hug', leisure.hug_command),
 	

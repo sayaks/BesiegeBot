@@ -58,4 +58,11 @@ async def set_leisure_channel(client, message, prefix):
 	OFF_TOPIC_ID = message.channel.id
 
 async def help_command(client, message, prefix):
-	
+	if client.sent_by_admin(message):
+		commands = '\n\t'.join(admin_commands)
+	else:
+		commands = '\n\t'.join(listed_commands)
+	await client.send_message(
+		message.author,
+		f'Commands:\n\t{commands}',
+	)
