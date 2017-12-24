@@ -6,6 +6,7 @@ import mundane
 import karma
 import f1984
 import leisure
+import re
 
 with open("./token.txt") as f:
 	TOKEN = f.read()
@@ -63,10 +64,10 @@ async def on_message(message):
 		
 	for command in commands:
 		if command[0](message):
-			content = message.content.replace("```", "\```")
+			content = await sanitize(message.content)
 			client.log(
 				f'Executing {command[1]} because of message '
-				f'```{content}``` by {message.author} in {message.channel}'
+				f'{content} by {message.author} in {message.channel}'
 			)
 			await command[1](client, message)
 			return
@@ -81,9 +82,9 @@ async def delete_message(message):
 		return
 	if message.channel.name.startswith("bot"):
 		return
-	content = message.content.replace("```", "\```")
+	content = await sanitize(message.content)
 	client.log(
-		f'Deleting message ```{content}``` '
+		f'Deleting message\n{content}\n'
 		f'by {message.author} '
 		f'in {message.channel}'
 	)
@@ -105,7 +106,21 @@ def sent_by_admin(message):
 		else message.author.top_role.id == '261519756417433601'
 	)
 client.sent_by_admin = sent_by_admin
+
+async def sanitize(content):
+	content = content.replace("```", "\```")
+	found = set(re.findall(
+		r"<@[0-9]*>",
+		content,
+	))
+	for m in found:
+		user = await client.get_user_info(m[2:-1])
+		content = content.replace(m, f'@{str(user)}')
+	return f'```{content}```'
 	
+	
+	
+
 
 if __name__ == "__main__":
 	client.run(TOKEN)
