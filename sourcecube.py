@@ -82,8 +82,11 @@ async def on_ready():
 			LOG_CHANNEL = client.get_channel(mundane.LOG_CHANNEL_ID)
 		
 		while len(back_log)>0 and LOG_CHANNEL != None:
-			await client.send_message(LOG_CHANNEL, back_log.pop(0))
-			await asyncio.sleep(0.2)
+			try:
+				await client.send_message(LOG_CHANNEL, back_log.pop(0))
+			except Exception as e:
+				print(f'Something went wrong while logging:\n{e}')
+			await asyncio.sleep(1)
 			
 			
 
@@ -99,7 +102,12 @@ async def on_message(message):
 				f'Executing {command[1]} because of message '
 				f'{content} by {message.author} in {message.channel}'
 			)
-			await command[1](client, message)
+			try:
+				await command[1](client, message)
+			except Exception as e:
+				client.log(
+					f'Encountered an exception when running command:\n{e}'
+				)
 			return
 	if DEFAULT != None:
 		await DEFAULT(client, message)
