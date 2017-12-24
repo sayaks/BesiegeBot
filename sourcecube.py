@@ -63,9 +63,10 @@ async def on_message(message):
 		
 	for command in commands:
 		if command[0](message):
+			content = message.content.replace("```", "\```")
 			client.log(
 				f'Executing {command[1]} because of message '
-				f'"{message.content}" by {message.author} in {message.channel}'
+				f'```{content}``` by {message.author} in {message.channel}'
 			)
 			await command[1](client, message)
 			return
