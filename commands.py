@@ -30,6 +30,16 @@ def register(name, command, leisure=True, admin=False, delete=True):
 					f'{message.author} ({message.author.top_role.name}) '
 					f'tried to use admin-only command {name}, but was denied'
 				)
+				embed = discord.Embed(
+					title = 'Username is not in the sudoers file.',
+					type = 'rich',
+					description = 'This incident will be reported.',
+					url = 'https://xkcd.com/838/',
+				)
+				embed.set_image(
+					url='https://imgs.xkcd.com/comics/incident.png'
+				)
+				await client.send_message(message.author, embed = embed)
 				return
 		if leisure:
 			if message.channel.id != OFF_TOPIC_ID:
@@ -39,7 +49,6 @@ def register(name, command, leisure=True, admin=False, delete=True):
 	
 	return (check,execute)
 	
-
 async def set_leisure_channel(client, message, prefix):
 	global OFF_TOPIC_ID
 	client.log(
@@ -47,3 +56,6 @@ async def set_leisure_channel(client, message, prefix):
 		f"{client.get_channel(OFF_TOPIC_ID)} to {message.channel}"
 	)
 	OFF_TOPIC_ID = message.channel.id
+
+async def help_command(client, message, prefix):
+	
