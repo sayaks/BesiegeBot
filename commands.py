@@ -27,7 +27,7 @@ def register(name, command, leisure=True, admin=False, delete=True):
 		if admin:
 			if not client.sent_by_admin(message):
 				client.log(
-					f'{message.author} ({message.author.top_role.name}) '
+					f'{message.author} (`{message.author.top_role}`) '
 					f'tried to use admin-only command {name}, but was denied'
 				)
 				embed = discord.Embed(
