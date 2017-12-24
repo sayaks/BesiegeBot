@@ -80,15 +80,16 @@ async def delete_message(message):
 		return
 	if message.channel.name.startswith("bot"):
 		return
+	content = str.replace("```", "\```", message.content)
 	client.log(
-		f'Deleting message "{message.content}" '
+		f'Deleting message ```{content}``` '
 		f'by {message.author} '
 		f'in {message.channel}'
 	)
 	await client.__delete_message__(message)
 client.__delete_message__ = client.delete_message
 client.delete_message = delete_message
-	
+
 def log(s):
 	print(s)
 	if mundane.LOG_CHANNEL_ID != None:
@@ -103,6 +104,7 @@ def sent_by_admin(message):
 		else message.author.top_role.id == '261519756417433601'
 	)
 client.sent_by_admin = sent_by_admin
+	
 
 if __name__ == "__main__":
 	client.run(TOKEN)
