@@ -1,12 +1,12 @@
 import discord
 import asyncio
+import re
 
 import config
 import mundane
 import karma
 import f1984
 import leisure
-import re
 
 with open("./token.txt") as f:
 	TOKEN = f.read()
@@ -24,12 +24,14 @@ back_log = []
 commands = [
 	(lambda m: m.channel.name == 'screenshots', f1984.check_screenshot),
 
+	
 	(lambda m: m.content == '!reload', mundane.reload),
 	(lambda m: m.content == '!set_log', mundane.set_log_channel),
 	(lambda m: m.content == '!set_leisure', leisure.set_leisure_channel),
 	
 	(lambda m: m.content == '!karma', karma.send_karma_score),
 	
+	(lambda m: m.content.startswith('!zc'), leisure.zerochan_command),
 	(lambda m: m.content.startswith('!hug '), leisure.hug_command),
 	
 	(f1984.ip_check, f1984.remove_ip),

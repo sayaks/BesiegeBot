@@ -2,11 +2,30 @@ import zerochan
 import config
 import asyncio
 import discord
+import re
 from karma import get_mentions
 
 OFF_TOPIC_ID = None
 config.register(__name__, 'OFF_TOPIC_ID')
 
+async def zerochan_command(client, message):
+	author = message.author
+	await client.delete_message(message)
+	if message.channel.id == OFF_TOPIC_ID and client.sent_by_admin(message):
+		content = re.split(r'(?<!\\),',message.content)
+		if len(content) != 3:
+			return
+		
+		image = zerochan.get_pic(content[0][3:].strip())
+		if image != None:
+			embed = discord.Embed(
+				title = content[1].strip(),
+				type = 'rich',
+				description = content[2].strip(),
+				url = image[0],
+			)
+			embed.set_image(url=image[1])
+			await client.send_message(message.channel, embed = embed)
 
 async def hug_command(client, message):
 	author = message.author

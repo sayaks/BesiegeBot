@@ -1,8 +1,19 @@
 import urllib.request
 import requests
+import re
 
 picsite = 'https://www.zerochan.net/{0}?s=random'
+		
+def get_pic(tag):
+		imagesource = __FindPic(tag)
+		if imagesource==None:
+			return None
+		image = __ExtractPic(imagesource)
+		
+		return (imagesource, image)
 
+			
+			
 def __FindPic(tag):
 	try:
 		with urllib.request.urlopen(picsite.format(tag)) as response:
@@ -31,12 +42,4 @@ def __ExtractPic(url):
 		print(e)
 		return None
 	return text
-		
-def get_pic(tag):
-		imagesource = __FindPic(tag)
-		if imagesource==None:
-			return None
-		image = __ExtractPic(imagesource)
-		
-		return (imagesource, image)
 
