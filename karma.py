@@ -37,7 +37,7 @@ def check_karma_legal(message):
 	)
 
 async def parse_karma(client, message):
-	give_karma(message.author, get_mentions(message))
+	give_karma(client, message.author, get_mentions(message))
 
 	
 
@@ -77,8 +77,8 @@ def not_on_cooldown(user):
 	return time.time()-data['last-karma'] > cooldown
 
 	
-def give_karma(from_user, to_users):
-	log("{0} gave karma to {1}".format(
+def give_karma(client, from_user, to_users):
+	client.log("{0} gave karma to {1}".format(
 		from_user,
 		[ str(to_user) for to_user in to_users ],
 	))
