@@ -148,11 +148,11 @@ client.sent_by_admin = sent_by_admin
 async def sanitize(content):
 	content = content.replace("```", "\```")
 	found = set(re.findall(
-		r"<@[0-9]*>",
+		r"<@!?([0-9]*)>",
 		content,
 	))
 	for m in found:
-		user = await client.get_user_info(m[2:-1])
+		user = await client.get_user_info(m)
 		content = content.replace(m, f'@{str(user)}')
 	return f'```{content}```'
 	
