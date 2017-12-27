@@ -56,7 +56,6 @@ commands = [
 	commands.register(
 		'topkarma',
 		karma.top_karma,
-		leisure=False, admin=True,
 	),
 	
 	

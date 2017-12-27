@@ -10,7 +10,7 @@ async def check_screenshot(client, message):
 	if len(message.attachments) > 0:
 		return
 	for embed in message.embeds:
-		if print(embed['type']) == "image":
+		if embed['type'] == "image":
 			return
 	
 	await client.delete_message(message)
