@@ -10,7 +10,6 @@ import karma
 import f1984
 import leisure
 
-
 with open("./token.txt") as f:
 	TOKEN = f.read()
 	
@@ -54,6 +53,12 @@ commands = [
 		karma.send_karma_score, 
 		leisure=False,
 	),
+	commands.register(
+		'topkarma',
+		karma.top_karma,
+		leisure=False, admin=True,
+	),
+	
 	
 	commands.register(
 		'zc', 
@@ -102,12 +107,12 @@ async def on_message(message):
 				f'Executing {command[1]} because of message '
 				f'{content} by {message.author} in {message.channel}'
 			)
-			try:
-				await command[1](client, message)
-			except Exception as e:
-				client.log(
-					f'Encountered an exception while running command:\n{e}'
-				)
+#			try:
+			await command[1](client, message)
+#			except Exception as e:
+#				client.log(
+#					f'Encountered an exception while running command:\n{e}'
+#				)
 			return
 	if DEFAULT != None:
 		await DEFAULT(client, message)

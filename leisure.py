@@ -23,7 +23,7 @@ async def zerochan_command(client, message, prefix):
 		await client.send_message(message.channel, embed = embed)
 
 async def hug_command(client, message, prefix):
-	mentions = get_mentions(message)
+	mentions = get_mentions(message, True)
 	if len(mentions) > 0:
 		mentioned_str = ', '.join([user.name for user in mentions])
 		image = zerochan.get_pic("hug")
