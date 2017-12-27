@@ -157,7 +157,7 @@ async def sanitize(content):
 	))
 	for m in found:
 		user = await client.get_user_info(m)
-		content = content.replace(m, f'@{str(user)}')
+		content = re.sub(f'<@!?{m}>',f'@{str(user)}',content)
 	return f'```{content}```'
 	
 	
