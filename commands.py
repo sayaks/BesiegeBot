@@ -68,3 +68,24 @@ async def help_command(client, message, prefix):
         message.author,
         f'Commands:\n\t{commands}'
     )
+
+
+async def test_command(client, message, prefix):
+    await client.send_message(
+        message.channel,
+        'Pong!'
+    )
+
+
+async def test_rich_command(client, message, prefix):
+    c = str.split(message.content, ' ')
+    emb = discord.Embed(
+        title='Pong!',
+        type='rich',
+        description=c[0],
+        colour=discord.Colour(int(c[1], 16))
+    )
+    await client.send_message(
+        message.channel,
+        embed=emb
+    )

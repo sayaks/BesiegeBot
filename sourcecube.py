@@ -58,6 +58,17 @@ commands = [
         karma.top_karma,
     ),
 
+    # some test commands to check that things are actually working
+    commands.register(
+        'ping',
+        commands.test_command,
+        admin=True, leisure=False
+    ),
+    commands.register(
+        'pingrich',
+        commands.test_rich_command,
+        admin=True, leisure=False
+    ),
 
     commands.register(
         'zc',
