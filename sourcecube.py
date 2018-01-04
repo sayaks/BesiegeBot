@@ -42,6 +42,11 @@ commands = [
         commands.set_leisure_channel,
         admin=True, leisure=False,
     ),
+    commands.register(
+        'error',
+        mundane.do_raise_error,
+        admin=True, leisure=False,
+    ),
 
     commands.register(
         'help',

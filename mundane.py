@@ -50,3 +50,7 @@ async def set_log_channel(client, message, prefix):
         f"{client.get_channel(LOG_CHANNEL_ID)} to {message.channel}"
     )
     LOG_CHANNEL_ID = message.channel.id
+	
+	
+async def do_raise_error(client, message, prefix):
+	raise Exception("Test Exception")
