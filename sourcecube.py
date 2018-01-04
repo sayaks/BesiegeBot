@@ -10,12 +10,17 @@ import karma
 import f1984
 import leisure
 
+
 with open("./token.txt") as f:
     TOKEN = f.read()
 
-with open("./god_users.txt") as f:
-    GOD_USERS = f.read().splitlines()
-
+try:
+    with open("./god_users.txt") as f:
+        GOD_USERS = f.read().splitlines()
+except IOError:
+    with open("./god_users.txt",'w') as f:
+        GOD_USERS = []
+        
 DEFAULT = mundane.game_status_per_message
 mundane.LOGOUT = [
     config.save,

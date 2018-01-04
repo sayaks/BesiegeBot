@@ -5,10 +5,11 @@ import asyncio
 import discord
 
 try:
-    user_data = json.load(open('karma.json'))
+    with open('karma.json') as f:
+        user_data = json.load(f)
 except:
-    user_data = {}
-    open('karma.json','w')
+    with open('karma.json','w') as f:
+        user_data = {}
     
 cooldown = 60.0
 
