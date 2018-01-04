@@ -60,7 +60,7 @@ commands = [
 
     # some test commands to check that things are actually working
     commands.register(
-        'ping',
+        'testping',
         commands.test_command,
         admin=True, leisure=False
     ),
