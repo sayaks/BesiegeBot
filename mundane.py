@@ -38,10 +38,10 @@ async def game_status_per_message(client, message):
 async def reload(client, message, prefix):
     client.exiting = True
     client.log(f"{messages_since_startup} messages since startup")
-    client.log("logging out in 5 seconds...")
+    client.log("logging out in 15 seconds...")
     for l in LOGOUT:
         l()
-    await asyncio.sleep(5)
+    await asyncio.sleep(15)
     await client.logout()
 
 
