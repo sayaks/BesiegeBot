@@ -62,24 +62,24 @@ async def top_karma(client, message, prefix):
     if len(to_show) == 0:
         return
 
-    await client.send_message(
-        message.channel,
-        embed=discord.Embed(
-            title=f'Top Karma around rank {to_show[len(to_show)//2][0]}',
-            type='rich',
-            description=(
-                "```js\n"
-                + "Rank | User | Karma | Given\n"
-                + "\n".join([
-                    f'[{d[0]}]\t{d[1]}:\t'
-                    f'{d[2]["karma"]}\t{d[2]["karma-given"]}'
-                    for d
-                    in to_show
-                ])
-                + "```"
-            )
+    emb = discord.Embed(
+        title=f'Top Karma around rank {to_show[len(to_show)//2][0]}',
+        type='rich',
+        description=(
+            "```js\n"
+            + "Rank | User | Karma | Given\n"
+            + "\n".join([
+                f'[{d[0]}]\t{d[1]}:\t'
+                f'{d[2]["karma"]}\t{d[2]["karma-given"]}'
+                for d
+                in to_show
+            ])
+            + "```"
         )
     )
+    await client.send_message(
+        message.channel,
+        embed=emb)
 
 
 def get_data(userid):
