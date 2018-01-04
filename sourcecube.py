@@ -87,6 +87,7 @@ commands = [
 ]
 
 client = discord.Client()
+client.exiting = False
 
 
 @client.event
@@ -95,7 +96,7 @@ async def on_ready():
         f'Logged in as\n{client.user.name}\n{client.user.id}\n------'
     )
     LOG_CHANNEL = None
-    while True:
+    while not client.exiting:
         await asyncio.sleep(5)
         if mundane.LOG_CHANNEL_ID == None:
             LOG_CHANNEL = None
@@ -107,12 +108,17 @@ async def on_ready():
                 await client.send_message(LOG_CHANNEL, back_log.pop(0))
             except Exception as e:
                 print(f'Something went wrong while logging:\n{e}')
+            if client.exiting:
+                break
             await asyncio.sleep(1)
+        
+    for message, _ in zip(back_log, range(10)):
+        await client.send_message(LOG_CHANNEL, message)
 
 
 @client.event
 async def on_message(message):
-    if message.author.bot:
+    if message.author.bot or client.exiting:
         return
 
     for command in commands:

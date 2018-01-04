@@ -36,10 +36,12 @@ async def game_status_per_message(client, message):
 
 
 async def reload(client, message, prefix):
+    client.exiting = True
     client.log(f"{messages_since_startup} messages since startup")
-    client.log("logging out...")
+    client.log("logging out in 5 seconds...")
     for l in LOGOUT:
         l()
+    await asyncio.sleep(5)
     await client.logout()
 
 
@@ -50,7 +52,7 @@ async def set_log_channel(client, message, prefix):
         f"{client.get_channel(LOG_CHANNEL_ID)} to {message.channel}"
     )
     LOG_CHANNEL_ID = message.channel.id
-	
-	
+    
+    
 async def do_raise_error(client, message, prefix):
-	raise Exception("Test Exception")
+    raise Exception("Test Exception")
