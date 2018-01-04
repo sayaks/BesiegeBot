@@ -117,8 +117,8 @@ async def on_message(message):
                 f'Executing {command[1]} because of message '
                 f'{content} by {message.author} in {message.channel}'
             )
-			try:
-            await command[1](client, message)
+            try:
+                await command[1](client, message)
             except Exception as e:
                 client.log(
                     f'Encountered an exception while running command:\n{e}'
