@@ -82,8 +82,8 @@ async def test_rich_command(client, message, prefix):
     emb = discord.Embed(
         title='Pong!',
         type='rich',
-        description=c[0],
-        colour=discord.Colour(int(c[1], 16))
+        description=c[1], # c[0] is ofc !pingrich. wasn't really expecting that for some reason
+        colour=discord.Colour(int(c[2], 16))
     )
     await client.send_message(
         message.channel,
