@@ -82,14 +82,17 @@ def get_ranks(users):
 	""", ids)
 	return kcursor.fetchall()
 
-def get_top(best_rank, count):
+def get_top(best_rank, count, client):
+	client.log("started get_top")
 	rebuild_ranks()
+	client.log("rebuilt ranks")
 	kcursor.execute("""
 		SELECT row, name, karma, karma_given
 		FROM ranks
 		WHERE row >= ?
 		LIMIT ?;
 	""", (best_rank, count))
+	client.log("finished execute")
 	return kcursor.fetchall()
 
 def commit():

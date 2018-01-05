@@ -47,9 +47,9 @@ async def parse_karma(client, message):
 
 async def top_karma(client, message, prefix):
 	mentions = get_mentions(message, False)
-
+	
 	if len(mentions) == 0:
-		to_show = database.get_top(0, 16)
+		to_show = database.get_top(0, 16, client)
 	elif len(mentions) == 1:
 		rank = get_rank(mentions[0].id)
 		if rank == None:
