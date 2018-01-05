@@ -1,6 +1,7 @@
 # Sensitive Data
 token.txt
 god_users.txt
+karma.db
 config.json
 
 # Byte-compiled / optimized / DLL files
