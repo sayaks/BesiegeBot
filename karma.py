@@ -72,14 +72,14 @@ async def top_karma(client, message, prefix):
 			maxNameLength = len(d[1])
 
 	def pad(s):
-		return " "*(maxNameLength-len(s))
+		return " "*(maxNameLength-len(s)+1)
 	
 	emb = discord.Embed(
 		title=f'Top Karma around rank {to_show[len(to_show)//2][0]}',
 		type='rich',
 		description=(
 			"```js\n"
-			+ "Rank | User | Karma {pad(d[1])}| Given\n"
+			+f"Rank | User | Karma {pad('kar')}| Given\n"
 			+ "\n".join([
 				f'[{d[0]}]\t{d[1]}:{pad(d[1])}\t{d[2]}\t{d[3]}'
 				for d
