@@ -66,7 +66,7 @@ async def top_karma(client, message, prefix):
 		client.log("Top Karma found nothing to show")
 		return
 
-	maxNameLength = 4
+	maxNameLength = 5
 	for d in to_show:
 		if len(d[1])>maxNameLength:
 			maxNameLength = len(d[1])
@@ -79,7 +79,7 @@ async def top_karma(client, message, prefix):
 		type='rich',
 		description=(
 			"```js\n"
-			+f"Rank | User | Karma {pad('kar')}| Given\n"
+			+f"Rank | User {pad('User')}| Karma | Given\n"
 			+ "\n".join([
 				f'[{d[0]}]\t{d[1]}:{pad(d[1])}\t{d[2]}\t{d[3]}'
 				for d
