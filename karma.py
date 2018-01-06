@@ -49,7 +49,7 @@ async def top_karma(client, message, prefix):
 	mentions = get_mentions(message, False)
 	
 	if len(mentions) == 0:
-		to_show = database.get_top(0, 16, client)
+		to_show = database.get_top(0, 16)
 	elif len(mentions) == 1:
 		rank = get_rank(mentions[0].id)
 		if rank == None:
@@ -61,9 +61,7 @@ async def top_karma(client, message, prefix):
 		to_show = database.get_top(rank-8, 16)
 	else:
 		to_show = database.get_ranks(mentions)
-	
-	client.log("Got to_show")
-	
+		
 	if len(to_show) == 0:
 		client.log("Top Karma found nothing to show")
 		return
@@ -82,7 +80,6 @@ async def top_karma(client, message, prefix):
 			+ "```"
 		)
 	)
-	client.log("made embed")
 	await client.send_message(
 		message.channel,
 		embed=emb
