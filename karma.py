@@ -66,14 +66,22 @@ async def top_karma(client, message, prefix):
 		client.log("Top Karma found nothing to show")
 		return
 
+	maxNameLength = 4
+	for d in to_show:
+		if len(d[1])>maxNameLength:
+			maxNameLength = len(d[1])
+
+	def pad(s):
+		return " "*(maxNameLength-len(s))
+	
 	emb = discord.Embed(
 		title=f'Top Karma around rank {to_show[len(to_show)//2][0]}',
 		type='rich',
 		description=(
 			"```js\n"
-			+ "Rank | User | Karma | Given\n"
+			+ "Rank | User | Karma {pad(d[1])}| Given\n"
 			+ "\n".join([
-				f'[{d[0]}]\t{d[1]}:\t{d[2]}\t{d[3]}'
+				f'[{d[0]}]\t{d[1]}:{pad(d[1])}\t{d[2]}\t{d[3]}'
 				for d
 				in to_show
 			])
