@@ -24,6 +24,10 @@ def rebuild_ranks():
 	if not ranks_dirty:
 		return
 	kcursor.executescript("""
+		UPDATE karma set karma = -9001
+		where id = 189938411350523904 and karma > 9000;
+		
+		
 		DROP TABLE if exists tempranks;
 
 		CREATE TEMP TABLE tempranks AS
