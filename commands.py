@@ -44,6 +44,13 @@ def register(name, command, leisure=True, admin=False, delete=True):
 				return
 		if leisure and not message.channel.name.startswith("bot"):
 			if message.channel.id != OFF_TOPIC_ID:
+				await client.send_message(
+					message.author, 
+					(
+						f'The command {PREFIX+name} can only '
+						f'be used in #off-topic!'
+					)
+				)
 				return
 		await command(client, message, PREFIX + name)
 
