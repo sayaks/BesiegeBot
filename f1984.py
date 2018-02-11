@@ -8,11 +8,26 @@ ip_reg = (
 
 
 async def check_screenshot(client, message):
+	await asyncio.sleep(5)
 	if len(message.attachments) > 0:
+		client.log(
+			f'Not deleting because of {message.attachments} attachment(s)'
+		)
 		return
+		
 	for embed in message.embeds:
 		if embed['type'] == "image":
+			client.log(
+				f'Not deleting because of image embed'
+			)
 			return
+		elif embed['type'] == "gifv":
+			client.log(
+				f'Not deleting because of gifv embed'
+			)
+			return
+		else:
+			client.log(f'Ignoring Embed: {embed["type"]}')
 
 	await client.delete_message(message)
 
