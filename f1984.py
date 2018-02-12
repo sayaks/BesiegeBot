@@ -9,9 +9,10 @@ ip_reg = (
 
 async def check_screenshot(client, message):
 	await asyncio.sleep(5)
-	if len(message.attachments) > 0:
+	attachmentCount = len(message.attachments)
+	if attachmentCount > 0:
 		client.log(
-			f'Not deleting because of {message.attachments} attachment(s)'
+			f'Not deleting because of {attachmentCount} attachment(s)'
 		)
 		return
 		
