@@ -1,11 +1,14 @@
 import json
 import sys
 
+cfg = {}
+
 try:
 	with open('config.json', 'r') as f:
 		cfg = json.load(f)
 except:
-	cfg = {}
+	print("wops")
+
 registered_values = []
 
 
