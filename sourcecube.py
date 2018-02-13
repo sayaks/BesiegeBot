@@ -12,7 +12,7 @@ import f1984
 import leisure
 
 with open("./token.txt") as f:
-	TOKEN = f.read()
+	TOKEN = f.read().split()[0]
 
 try:
 	with open("./god_users.txt") as f:
