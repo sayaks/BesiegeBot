@@ -2,7 +2,7 @@ import json
 import sys
 
 try:
-	with open('config.json', 'w') as f:
+	with open('config.json') as f:
 		cfg = json.load(f)
 except:
 	cfg = {}
