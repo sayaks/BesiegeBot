@@ -52,6 +52,11 @@ commands = [
 		mundane.do_raise_error,
 		admin=True, leisure=False,
 	),
+	commands.register(
+		'reset_karma',
+		karma.reset_karma,
+		admin=True, leisure=False,
+	),
 
 	commands.register(
 		'help',

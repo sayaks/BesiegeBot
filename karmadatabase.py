@@ -107,5 +107,22 @@ def get_top(best_rank, count):
 	""", (best_rank, count))
 	return kcursor.fetchall()
 
+def reset_karma():
+	kcursor.executescript("""
+		DROP INDEX if exists kscore;
+		DROP TABLE if exists karma;
+
+		CREATE TABLE if not exists karma(
+			id unsigned big int PRIMARY KEY,
+			name text NOT NULL,
+			karma int DEFAULT 0,
+			karma_given int DEFAULT 0,
+			last_given date
+		);
+
+		CREATE INDEX if not exists kscore
+		ON karma (karma, karma_given);
+	""")
+
 def commit():
 	karmadatabase.commit()

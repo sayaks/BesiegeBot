@@ -146,3 +146,10 @@ def give_karma(client, from_user, to_users):
 	for to_user in to_users:
 		t = get_data(to_user.id)
 		database.set_karma(to_user, t[2]+1)
+
+
+async def reset_karma(client, message, prefix):
+	client.log(f'{message.author} tried to reset karma')
+	if True:
+		database.reset_karma()	
+
