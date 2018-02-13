@@ -53,8 +53,12 @@ def set_karma(user, karma):
 	global ranks_dirty
 	ranks_dirty = True
 	kcursor.execute(
-		'INSERT or REPLACE INTO karma (id, name, karma) VALUES (?, ?, ?);',
+		'INSERT or IGNORE INTO karma (id, name, karma) VALUES (?, ?, ?);',
 		(user.id, user.name, karma)
+	)
+	kcursor.execute(
+		'UPDATE karma SET name=?, karma=? where ID=?;',
+		(user.name, karma, user.id)
 	)
 
 def set_karma_given(user, karma_given, last_given):
@@ -62,10 +66,17 @@ def set_karma_given(user, karma_given, last_given):
 	ranks_dirty = True
 	kcursor.execute(
 	"""
-		INSERT or REPLACE INTO karma (id, name, karma_given, last_given)
+		INSERT or IGNORE INTO karma (id, name, karma_given, last_given)
 		VALUES (?, ?, ?, ?);
 	""",
 		(user.id, user.name, karma_given, last_given)
+	)
+	kcursor.execute(
+	"""
+		UPDATE karma SET name=?, karma_given=?, last_given=?
+		WHERE ID=?;
+	""",
+		(user.name, karma_given, last_given, user.id)
 	)
 
 def get_rank(userid):
