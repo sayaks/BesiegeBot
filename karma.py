@@ -151,5 +151,7 @@ def give_karma(client, from_user, to_users):
 async def reset_karma(client, message, prefix):
 	client.log(f'{message.author} tried to reset karma')
 	if False:
-		database.reset_karma()	
+		database.reset_karma()
+	else:
+		client.log("Karma was not reset")
 

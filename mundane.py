@@ -39,12 +39,14 @@ async def reload(client, message, prefix):
 	client.exiting = True
 	client.log(f"{messages_since_startup} messages since startup")
 	client.log("logging out in 15 seconds...")
-	for l in SAVE:
-		l()
+	save_all()
 	await asyncio.sleep(15)
 	await client.logout()
-
-
+	
+def save_all():
+	for l in SAVE:
+		l()
+		
 async def set_log_channel(client, message, prefix):
 	global LOG_CHANNEL_ID
 	client.log(
