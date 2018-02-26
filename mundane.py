@@ -19,8 +19,9 @@ config.register(__name__, 'messages_total')
 
 async def game_status_per_message(client, message):
 	if message.channel.is_private:
+		sanitized = await client.sanitize(message.content)
 		client.log(
-			f'Recieved message "{message.content}" from {message.author}'
+			f'Recieved message {sanitized} from {message.author}'
 		)
 		return
 

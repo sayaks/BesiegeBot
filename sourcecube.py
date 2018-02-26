@@ -220,6 +220,7 @@ async def sanitize(content):
 		content = re.sub(f'<@!?{m}>', f'@{str(user)}', content)
 	return f'```{content}```'
 
+client.sanitize = sanitize
 
 if __name__ == "__main__":
 	client.run(TOKEN)
