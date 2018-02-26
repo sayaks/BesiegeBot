@@ -210,7 +210,7 @@ client.sent_by_admin = sent_by_admin
 
 
 async def sanitize(content):
-	content = content.replace("```", "\```")
+	content = content.replace("`", "`​")
 	found = set(re.findall(
 		r"<@!?([0-9]*)>",
 		content,
