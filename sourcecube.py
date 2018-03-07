@@ -66,6 +66,12 @@ commands = [
 		admin=True, leisure=False,
 	),
 
+	commands.register(
+		'zc',
+		leisure.zerochan_command,
+		admin=True,
+	),
+	
 	# Commands for everyone to use
 	commands.register(
 		'help',
@@ -80,6 +86,12 @@ commands = [
 	commands.register(
 		'topkarma',
 		karma.top_karma,
+		delete=False,
+	),
+	commands.register(
+		'hug', 
+		leisure.hug_command,
+		delete=False,
 	),
 
 	# Some test commands to check that things are actually working
@@ -94,12 +106,6 @@ commands = [
 		admin=True, leisure=False
 	),
 
-	commands.register(
-		'zc',
-		leisure.zerochan_command,
-		admin=True,
-	),
-	commands.register('hug', leisure.hug_command),
 
 	(f1984.ip_check, f1984.remove_ip),
 	(karma.check_karma_legal, karma.parse_karma),
