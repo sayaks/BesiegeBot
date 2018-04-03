@@ -96,3 +96,6 @@ async def test_rich_command(client, message, prefix):
 		message.channel,
 		embed=emb
 	)
+	
+async def test_exception_command(client, message, prefix):
+	raise Exception("This exception is exceptionally good to test with!")

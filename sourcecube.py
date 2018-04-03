@@ -1,6 +1,7 @@
 import discord
 import asyncio
 import re
+import traceback
 
 import config
 import commands
@@ -105,6 +106,11 @@ commands = [
 		commands.test_rich_command,
 		admin=True, leisure=False
 	),
+	commands.register(
+		'testexcept',
+		commands.test_exception_command,
+		admin=True, leisure=False
+	),
 
 
 	(f1984.ip_check, f1984.remove_ip),
@@ -150,8 +156,11 @@ async def try_log(client):
 	global back_log
 	try:
 		await client.send_message(LOG_CHANNEL, back_log.pop(0))
-	except Exception as e:
-		print(f'Something went wrong while logging:\n{e}')
+	except:
+		print(
+			f'Something went wrong while logging:\n',
+			traceback.format_exc()
+		)
 	
 @client.event
 async def on_message(message):
@@ -169,7 +178,8 @@ async def on_message(message):
 				await command[1](client, message)
 			except Exception as e:
 				client.log(
-					f'Encountered an exception while running command:\n{e}'
+					f'Encountered an exception while running command:\n'
+					+ traceback.format_exc()
 				)
 			return
 	if DEFAULT != None:
