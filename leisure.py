@@ -25,8 +25,17 @@ async def zerochan_command(client, message, prefix):
 
 async def hug_command(client, message, prefix):
 	mentions = get_mentions(message, True)
-	if len(mentions) > 0:
-		mentioned_str = ', '.join([user.name for user in mentions])
+	names = [user.name for user in mentions]
+	if "**@someone**" in message.content:
+		names.extend(
+			re.findall(
+				r'\*\*\*\(([^\*]*)\)\*\*\*',
+				message.content
+			)
+		)
+		
+	if len(names) > 0:
+		mentioned_str = ', '.join(names)
 		image = zerochan.get_pic("hug")
 		if image != None:
 			embed = discord.Embed(
@@ -37,3 +46,5 @@ async def hug_command(client, message, prefix):
 			)
 			embed.set_image(url=image[1])
 			await client.send_message(message.channel, embed=embed)
+
+			
