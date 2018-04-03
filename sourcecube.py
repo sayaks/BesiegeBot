@@ -178,8 +178,9 @@ async def on_message(message):
 				await command[1](client, message)
 			except Exception as e:
 				client.log(
-					f'Encountered an exception while running command:\n'
+					f'Encountered an exception while running command:\n```'
 					+ traceback.format_exc()
+					+'```'
 				)
 			return
 	if DEFAULT != None:
