@@ -42,7 +42,12 @@ def register(name, command, leisure=True, admin=False, delete=True):
 				)
 				await client.send_message(message.author, embed=embed)
 				return
-		if leisure and not message.channel.name.startswith("bot"):
+		
+		if message.channel.name == None:
+			client.log(
+				f'{message.author} used command {name} in DM'
+			)
+		elif leisure and not message.channel.name.startswith("bot"):
 			if message.channel.id != OFF_TOPIC_ID:
 				await client.send_message(
 					message.author, 
