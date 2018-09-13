@@ -1,18 +1,21 @@
 import urllib.request
 import requests
+
 import re
 
 picsite = 'https://www.zerochan.net/{0}?s=random'
 
 
-def get_pic(tag):
+def get_pic(tag, attempts = 1):
 	imagesource = __FindPic(tag)
 	if imagesource == None:
 		return None
-	image = __ExtractPic(imagesource)
-
-	return (imagesource, image)
-
+	for i in range(attempts):
+		image = __ExtractPic(imagesource)
+		if image != None:
+			return (imagesource, image)	
+	
+	return None
 
 def __FindPic(tag):
 	try:

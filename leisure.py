@@ -36,7 +36,7 @@ async def hug_command(client, message, prefix):
 		
 	if len(names) > 0:
 		mentioned_str = ', '.join(names)
-		image = zerochan.get_pic("hug")
+		image = zerochan.get_pic("hug",attempts = 10)
 		if image != None:
 			embed = discord.Embed(
 				title='A heartfelt hug',
