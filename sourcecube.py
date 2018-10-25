@@ -66,6 +66,12 @@ commands = [
 		lifebuoy.force_save,
 		admin=True, leisure=False,
 	),
+	commands.register(
+		'vmute',
+		f1984.vote_mute,
+		admin=False, leisure=True,
+		delete=False,
+	),
 
 	commands.register(
 		'zc',

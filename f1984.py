@@ -1,5 +1,6 @@
 import re
 import asyncio
+from karma import get_mentions
 
 ip_reg = (
 	r'([^.0-9]|^)'
@@ -59,3 +60,37 @@ async def remove_ip(client, message):
 			f"\n\t~SourceCube"
 		)
 	)
+
+votes = {}
+	
+async def vote_mute(client, message, prefix):
+	if not "trusted" in [i.name.lower() for i in message.author.roles]:
+		client.log(f'Not vote_muting due to lacking permissions')
+		return
+	mentions = get_mentions(message, False)
+	mute_role = [role for role in message.server.roles if "muted" in role.name.lower()][0]
+	muted = []
+	for user in mentions:
+		if not user.id in votes:
+			votes[user.id] = []
+		if message.author.id in votes[user.id]:
+			client.log(f'Not doubling vote for {user}')
+			continue
+			
+		votes[user.id].append(message.author.id)
+		if len(votes[user.id]) >= 3:
+			client.log(f'VoteMutes for User {user} exceeded 2, muting... (voted on by {votes[user.id]})')
+			votes[user.id] = []
+			await client.add_roles(user, mute_role)
+			muted.append(user)
+		else:
+			client.log(f'Amount of mutes on User {user} was increased to {len(votes[user.id])}')
+	if len(muted) > 0:
+		await client.send_message(message.channel, f'Muted User(s): {user}')
+	
+	
+	
+	
+	
+	
+	
