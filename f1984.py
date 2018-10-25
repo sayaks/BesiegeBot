@@ -70,6 +70,7 @@ async def vote_mute(client, message, prefix):
 	mentions = get_mentions(message, False)
 	mute_role = [role for role in message.server.roles if "muted" in role.name.lower()][0]
 	muted = []
+	added = []
 	for user in mentions:
 		if not user.id in votes:
 			votes[user.id] = []
@@ -85,8 +86,13 @@ async def vote_mute(client, message, prefix):
 			muted.append(user)
 		else:
 			client.log(f'Amount of mutes on User {user} was increased to {len(votes[user.id])}')
+			added.append((user.name,len(votes[user.id])))
 	if len(muted) > 0:
 		await client.send_message(message.channel, f'Muted User(s): {user}')
+	if len(added) > 0:
+		await client.send_message(message.author, f'The following changes were made: {added}')
+		
+
 	
 	
 	
