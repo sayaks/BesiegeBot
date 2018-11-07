@@ -11,6 +11,7 @@ import mundane
 import karma
 import f1984
 import leisure
+import wisdom
 
 with open("./token.txt") as f:
 	TOKEN = f.read().split()[0]
@@ -27,6 +28,7 @@ DEFAULT = mundane.game_status_per_message
 mundane.SAVE = [
 	config.save,
 	karma.save,
+	wisdom.save,
 ]
 
 back_log = []

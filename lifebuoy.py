@@ -2,7 +2,7 @@ import mundane
 import time
 
 
-save_interval = 60*60*2.5
+save_interval = 60*10
 next_save = time.time() + save_interval
 
 

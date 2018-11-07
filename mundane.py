@@ -2,6 +2,7 @@ import asyncio
 import discord
 import random
 import config
+import wisdom
 
 with open("./statuses.txt") as f:
 	STATUSES = f.read().splitlines()
@@ -25,6 +26,8 @@ async def game_status_per_message(client, message):
 		)
 		return
 
+	wisdom.addmessage(message.author.id)
+		
 	global messages_since_startup, messages_total
 	if messages_since_startup % 200 == 0:
 		await client.change_presence(
