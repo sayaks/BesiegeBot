@@ -16,7 +16,7 @@ def save_if_needed(client):
 		mundane.save_all()
 		
 		if time.time() > next_logged_save:
-			last_logged_save = time.time + log_interval
+			next_logged_save = time.time + log_interval
 			if unlogged_saves > 0:
 				client.log(
 					f'Executed regular save at interval:\n'
