@@ -5,6 +5,7 @@ import traceback
 
 import config
 import commands
+from tokens import DISCORD_TOKEN as TOKEN
 
 import lifebuoy
 import mundane
@@ -12,9 +13,7 @@ import karma
 import f1984
 import leisure
 import wisdom
-
-with open("./token.txt") as f:
-	TOKEN = f.read().split()[0]
+import globe
 
 try:
 	with open("./god_users.txt") as f:
@@ -101,6 +100,13 @@ commands = [
 		'hug', 
 		leisure.hug_command,
 		delete=False,
+	),
+	
+	# Statistic commands
+	commands.register(
+		'hot', 
+		globe.generate,
+		delete=False
 	),
 
 	# Some test commands to check that things are actually working

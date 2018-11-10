@@ -26,7 +26,7 @@ async def game_status_per_message(client, message):
 		)
 		return
 
-	wisdom.addmessage(message.author.id)
+	wisdom.add_message(message.author.id)
 		
 	global messages_since_startup, messages_total
 	if messages_since_startup % 200 == 0:

@@ -26,7 +26,7 @@ wisdomdatabase.commit()
 
 latest = [l(datetime.now()) for _, l in steps]
 
-def addmessage(id):
+def add_message(id):
 	for name, l in steps:
 		now = datetime.now()
 		now = l(now)
@@ -52,6 +52,21 @@ def addmessage(id):
 			f'VALUES (?, ?, ?);',
 			current
 		)
+		
+def count_time( stepIndex, time ):
+	step = steps[stepIndex]
+	time = step[1](time)
+	wcursor.execute(f"""
+		SELECT SUM(messages)
+		FROM {step[0]}
+		WHERE time=?
+	""", (time,))
+	count = wcursor.fetchone()
+	return count[0] if count[0] != None else 0
+
 	
 def save():
 	wisdomdatabase.commit()
+	
+	
+	

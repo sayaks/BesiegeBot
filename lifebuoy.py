@@ -10,7 +10,7 @@ next_logged_save = 0
 unlogged_saves = 0
 
 def save_if_needed(client):
-	global next_save
+	global next_save, next_logged_save, unlogged_saves
 	if time.time() >= next_save:
 		next_save = time.time() + save_interval
 		mundane.save_all()
