@@ -34,7 +34,13 @@ back_log = []
 LOG_CHANNEL = None
 
 commands = [
-	(lambda m: m.channel.name == 'screenshots', f1984.check_screenshot),
+	(
+		lambda m: (
+			m.channel.name == 'screenshots' or
+			m.channel.name == 'inspirations'
+		), 
+		f1984.check_screenshot
+	),
 
 	# Admin only commands
 	commands.register(
