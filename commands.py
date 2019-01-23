@@ -1,8 +1,10 @@
 import config
 import discord
 
-PREFIX = '!'
+PREFIX = ['!']
 config.register(__name__, 'PREFIX')
+if isinstance(PREFIX, str):
+	PREFIX = [PREFIX]
 
 OFF_TOPIC_ID = None
 config.register(__name__, 'OFF_TOPIC_ID')
@@ -19,8 +21,15 @@ def register(name, command, leisure=True, admin=False, delete=True):
 
 	def check(message):
 		if message.channel.is_private and message.content.startswith(name):
-			return True
-		return message.content.startswith(PREFIX + name)
+			return ""
+		if len(message.content) < 1:
+			return None
+		for i in PREFIX:
+			if not message.content.startswith(i):
+				continue
+			if message.content[len(i):].startswith(name):
+				return i
+		return None
 
 	async def execute(client, message):
 		if delete:
@@ -52,12 +61,12 @@ def register(name, command, leisure=True, admin=False, delete=True):
 				await client.send_message(
 					message.author, 
 					(
-						f'The command {PREFIX+name} can only '
+						f'The command {name} can only '
 						f'be used in #off-topic!'
 					)
 				)
 				return
-		await command(client, message, PREFIX + name)
+		await command(client, message, check(message) + name)
 
 	return (check, execute)
 
@@ -70,6 +79,42 @@ async def set_leisure_channel(client, message, prefix):
 	)
 	OFF_TOPIC_ID = message.channel.id
 
+async def add_prefix(client, message, prefix):
+	global PREFIX
+	new_prefix = message.content[len(prefix):].strip()
+	if new_prefix in PREFIX:
+		client.log(
+			f"{message.author} tried to add prefix "
+			f"{new_prefix}, but it was already in the list"
+		)
+		return
+	client.log(
+		f"{message.author} added prefix {new_prefix}"
+	)
+	PREFIX.append(new_prefix)
+
+async def delete_prefix(client, message, prefix):
+	global PREFIX
+	old_prefix = message.content[len(prefix):].strip()
+	if not old_prefix in PREFIX:
+		client.log(
+			f"{message.author} tried to remove prefix "
+			f"{old_prefix}, but it was not in the list"
+		)
+		return
+	client.log(
+		f"{message.author} removed prefix {old_prefix}"
+	)
+	PREFIX = list(filter(lambda x: x != old_prefix, PREFIX))
+	
+		
+	
+async def list_prefix(client, message, prefix):
+	global PREFIX
+	await client.send_message(
+		message.channel,
+		f'Prefixes: {str(PREFIX)}'
+	)
 
 async def help_command(client, message, prefix):
 	if client.sent_by_admin(message):

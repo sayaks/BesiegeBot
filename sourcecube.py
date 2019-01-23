@@ -59,6 +59,16 @@ commands = [
 		admin=True, leisure=False,
 	),
 	commands.register(
+		'add_prefix',
+		commands.add_prefix,
+		admin=True, leisure=False,
+	),
+	commands.register(
+		'delete_prefix',
+		commands.delete_prefix,
+		admin=True, leisure=False,
+	),
+	commands.register(
 		'error',
 		mundane.do_raise_error,
 		admin=True, leisure=False,
@@ -90,6 +100,11 @@ commands = [
 	commands.register(
 		'help',
 		commands.help_command,
+		leisure=False,
+	),
+	commands.register(
+		'list_prefix',
+		commands.list_prefix,
 		leisure=False,
 	),
 	commands.register(
