@@ -6,9 +6,10 @@ config.register(__name__, 'PREFIX')
 if isinstance(PREFIX, str):
 	PREFIX = [PREFIX]
 
-OFF_TOPIC_ID = None
+OFF_TOPIC_ID = []
 config.register(__name__, 'OFF_TOPIC_ID')
-
+if isinstance(OFF_TOPIC_ID, str):
+	OFF_TOPIC_ID = [OFF_TOPIC_ID]
 
 listed_commands = []
 admin_commands = []
@@ -57,7 +58,7 @@ def register(name, command, leisure=True, admin=False, delete=True):
 				f'{message.author} used command {name} in DM'
 			)
 		elif leisure and not message.channel.name.startswith("bot"):
-			if message.channel.id != OFF_TOPIC_ID:
+			if message.channel.id not in OFF_TOPIC_ID:
 				await client.send_message(
 					message.author, 
 					(
@@ -71,13 +72,35 @@ def register(name, command, leisure=True, admin=False, delete=True):
 	return (check, execute)
 
 
-async def set_leisure_channel(client, message, prefix):
+async def add_leisure_channel(client, message, prefix):
 	global OFF_TOPIC_ID
+	if new_id in OFF_TOPIC_ID:
+		client.log(
+			f"{message.author} tried to add OFF_TOPIC "
+			f"{new_prefix}, but it was already in the list"
+		)
+		return
 	client.log(
-		f"{message.author} set OFF_TOPIC from "
-		f"{client.get_channel(OFF_TOPIC_ID)} to {message.channel}"
+		f"{message.author} added OFF_TOPIC channel {message.channel}"
 	)
-	OFF_TOPIC_ID = message.channel.id
+	OFF_TOPIC_ID.append(message.channel.id)
+	
+async def delete_leisure_channel(client, message, prefix):
+	global OFF_TOPIC_ID
+	new_id = message.channel.id
+	if new_id not in OFF_TOPIC_ID:
+		client.log(
+			f"{message.author} attempted to delete OFF_TOPIC channel "
+			f"{message.channel}, but it wasn't off topic"
+		)
+		return
+		
+	client.log(
+		f"{message.author} deleted OFF_TOPIC channel {message.channel}"
+	)
+	OFF_TOPIC_ID = list(
+		filter(lambda x: x != new_id, OFF_TOPIC_ID)
+	)
 
 async def add_prefix(client, message, prefix):
 	global PREFIX

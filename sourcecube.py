@@ -54,8 +54,13 @@ commands = [
 		admin=True, leisure=False,
 	),
 	commands.register(
-		'set_leisure',
-		commands.set_leisure_channel,
+		'add_leisure',
+		commands.add_leisure_channel,
+		admin=True, leisure=False,
+	),
+	commands.register(
+		'delete_leisure',
+		commands.delete_leisure_channel,
 		admin=True, leisure=False,
 	),
 	commands.register(
