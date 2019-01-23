@@ -16,7 +16,7 @@ if __name__ == '__main__':
 				cwd=path
 			)
 			result = subprocess.run(
-				["python3.6", "sourcecube.py"], 
+				["python3", "sourcecube.py"], 
 				cwd=path
 			)
 			if result.returncode != 0:

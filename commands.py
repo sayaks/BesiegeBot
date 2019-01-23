@@ -74,10 +74,11 @@ def register(name, command, leisure=True, admin=False, delete=True):
 
 async def add_leisure_channel(client, message, prefix):
 	global OFF_TOPIC_ID
+	new_id = message.channel.id
 	if new_id in OFF_TOPIC_ID:
 		client.log(
 			f"{message.author} tried to add OFF_TOPIC "
-			f"{new_prefix}, but it was already in the list"
+			f"{message.channel}, but it was already in the list"
 		)
 		return
 	client.log(
@@ -87,8 +88,8 @@ async def add_leisure_channel(client, message, prefix):
 	
 async def delete_leisure_channel(client, message, prefix):
 	global OFF_TOPIC_ID
-	new_id = message.channel.id
-	if new_id not in OFF_TOPIC_ID:
+	old_id = message.channel.id
+	if old_id not in OFF_TOPIC_ID:
 		client.log(
 			f"{message.author} attempted to delete OFF_TOPIC channel "
 			f"{message.channel}, but it wasn't off topic"
@@ -99,7 +100,7 @@ async def delete_leisure_channel(client, message, prefix):
 		f"{message.author} deleted OFF_TOPIC channel {message.channel}"
 	)
 	OFF_TOPIC_ID = list(
-		filter(lambda x: x != new_id, OFF_TOPIC_ID)
+		filter(lambda x: x != old_id, OFF_TOPIC_ID)
 	)
 
 async def add_prefix(client, message, prefix):
