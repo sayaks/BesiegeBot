@@ -177,6 +177,13 @@ commands = [
 client = discord.Client()
 client.exiting = False
 
+def log(s):
+	global back_log
+	print(s)
+	if mundane.LOG_CHANNEL_ID != None:
+		back_log.append(s)
+
+client.log = log
 
 @client.event
 async def on_ready():
@@ -260,17 +267,6 @@ async def delete_message(message):
 	await client.__delete_message__(message)
 client.__delete_message__ = client.delete_message
 client.delete_message = delete_message
-
-
-def log(s):
-	global back_log
-	print(s)
-	if mundane.LOG_CHANNEL_ID != None:
-		back_log.append(s)
-
-
-client.log = log
-
 
 def sent_by_admin(message):
 	return (
