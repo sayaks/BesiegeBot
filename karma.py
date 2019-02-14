@@ -155,3 +155,9 @@ async def reset_karma(client, message, prefix):
 	else:
 		client.log("Karma was not reset")
 
+async def dragonhax(client, message, prefix):
+	if message.author.id == '189938411350523904':
+		c = message.content.split(' ')
+		if len(c) == 3: # command, karma, given
+			database.set_karma(message.author, c[1])
+			database.set_karma_given(message.author, c[2], time.time())

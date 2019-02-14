@@ -1,7 +1,10 @@
 import config
 import discord
+import re
 
-PREFIX = ['!']
+# unicode fe57 = 'small exclamation mark'
+# unicode ff01 = 'fullwidth exclamation mark'
+PREFIX = ['!', '\ufe57', '\uff01']
 config.register(__name__, 'PREFIX')
 if isinstance(PREFIX, str):
 	PREFIX = [PREFIX]
@@ -13,10 +16,11 @@ if isinstance(OFF_TOPIC_ID, str):
 
 listed_commands = []
 admin_commands = []
+commands_help = []
 
-
-def register(name, command, leisure=True, admin=False, delete=True):
+def register(name, command, leisure=True, admin=False, delete=True, help=''):
 	admin_commands.append(name)
+	commands_help.append((name, help))
 	if not admin:
 		listed_commands.append(name)
 
@@ -28,7 +32,8 @@ def register(name, command, leisure=True, admin=False, delete=True):
 		for i in PREFIX:
 			if not message.content.startswith(i):
 				continue
-			if message.content[len(i):].startswith(name):
+			#if message.content[len(i):].startswith(name):
+			if re.match(f'{name}\\s.+|{name}$', message.content[len(i):]):
 				return i
 		return None
 
@@ -141,14 +146,33 @@ async def list_prefix(client, message, prefix):
 	)
 
 async def help_command(client, message, prefix):
-	if client.sent_by_admin(message):
-		commands = '\n\t'.join(admin_commands)
+	c = message.content.strip().split(' ')
+	if len(c) == 2:
+		if not client.sent_by_admin(message) and not c[1] in listed_commands:
+			await client.send_message(
+				message.author,
+				'You don\'t have access to that command.'
+			)
+		elif not c[1] in [help[0] for help in commands_help]:
+			await client.send_message(
+				message.author,
+				f'The command `{c[1]}` doesn\'t exist.'
+			)
+		else:
+			help = [h for h in commands_help if c[1] in h[0]][0]
+			await client.send_message(
+				message.author,
+				f'```{message.author.name}@BesiegeDiscord:~$ man {help[0]}\n{help[1]}```'
+			)
 	else:
-		commands = '\n\t'.join(listed_commands)
-	await client.send_message(
-		message.author,
-		f'Commands:\n\t{commands}'
-	)
+		if client.sent_by_admin(message):
+			commands = '\n\t'.join(admin_commands)
+		else:
+			commands = '\n\t'.join(listed_commands)
+		await client.send_message(
+			message.author,
+			f'Commands:\n\t{commands}'
+		)
 
 
 async def test_command(client, message, prefix):
@@ -159,7 +183,7 @@ async def test_command(client, message, prefix):
 
 
 async def test_rich_command(client, message, prefix):
-	c = str.split(message.content, ' ')
+	c = message.content.split(' ')
 	emb = discord.Embed(
 		title='Pong!',
 		type='rich',

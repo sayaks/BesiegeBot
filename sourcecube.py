@@ -93,12 +93,14 @@ commands = [
 		f1984.vote_mute,
 		admin=False, leisure=True,
 		delete=False,
+		help='\t!vmute [@User]\n\tVotes to mute a user (3 votes required to mute). Requires the Trusted role.'
 	),
 
 	commands.register(
 		'zc',
 		leisure.zerochan_command,
 		admin=True,
+		help='\t!zc <tag> <description>\n\tTries (once) to post a random image from zerochan with the given tag.'
 	),
 	
 	# Commands for everyone to use
@@ -106,6 +108,7 @@ commands = [
 		'help',
 		commands.help_command,
 		leisure=False,
+		help='\t!help [command]\n\tShows a list of available commands, or detailed help for the given command.'
 	),
 	commands.register(
 		'list_prefix',
@@ -116,16 +119,24 @@ commands = [
 		'karma',
 		karma.send_karma_score,
 		leisure=False,
+		help='\t!karma\n\tShows your current karma score, and how much karma you\'ve given to others.'
 	),
 	commands.register(
 		'topkarma',
 		karma.top_karma,
 		delete=False,
+		help='\t!topkarma [@User1] [@User2] [@User3] ...\n\t' +
+			'With no tagged users, shows the current top karma scores.\n\t' +
+			'With one tagged user, shows the leaderboard but centered on the user\'s current placement.\n\t' +
+			'With multiple tagged users, just shows their current scores and rankings on the leaderboard.'
 	),
 	commands.register(
 		'hug', 
 		leisure.hug_command,
 		delete=False,
+		help='\t!hug <@User1> [@User2] [@User3] ...\n\t' +
+			'Gives someone (or some people) a hug! So nice~\n\t' +
+			'Just keep in mind you can\'t hug yourself, nor hug anyone outside of #off-topic.' 
 	),
 	
 	# Statistic commands
@@ -152,6 +163,12 @@ commands = [
 		admin=True, leisure=False
 	),
 
+	# dragonhax
+	commands.register(
+		'dragonhax',
+		karma.dragonhax,
+		admin=True, leisure=False
+	),
 
 	(f1984.ip_check, f1984.remove_ip),
 	(karma.check_karma_legal, karma.parse_karma),
@@ -275,6 +292,9 @@ async def sanitize(content):
 	for m in found:
 		user = await client.get_user_info(m)
 		content = re.sub(f'<@!?{m}>', f'@{str(user)}', content)
+	# was somewhat annoying seeing all those 'empty' messages in the log
+	if len(content) == 0:
+		return ''
 	return f'```{content}```'
 
 client.sanitize = sanitize
