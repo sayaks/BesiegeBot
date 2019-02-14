@@ -11,7 +11,9 @@ karma_matches = [
 	"thank",
 	"thanx",
 	"thanks",
-	"thankyou"
+	"thankyou",
+	"ありがとう",
+	"ありがと"
 ]
 
 
