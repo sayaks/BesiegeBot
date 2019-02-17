@@ -12,8 +12,16 @@ karma_matches = [
 	"thanx",
 	"thanks",
 	"thankyou",
+	# arigato (thank you)
 	"ありがとう",
-	"ありがと"
+	"ありがと",
+	"有難う",
+	# kansha (gratitude)
+	"感謝",
+	# jingrish 'thank you'
+	"サンクス",
+	"サンキュ",
+	"さんきゅ"
 ]
 
 
