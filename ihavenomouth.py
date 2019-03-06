@@ -89,7 +89,7 @@ async def temp_mute(client, message, prefix):
 			if minutes > 1 else "" if minutes == 0 
 			else "1 minute"
 		)
-	).strip(",")
+	).strip(", ")
 	if not time_string:
 		await client.send_message(
 			message.channel,
