@@ -14,6 +14,7 @@ import f1984
 import leisure
 import wisdom
 import globe
+import ihavenomouth
 
 try:
 	with open("./god_users.txt") as f:
@@ -89,11 +90,36 @@ commands = [
 		admin=True, leisure=False,
 	),
 	commands.register(
+		'temp_mute',
+		ihavenomouth.temp_mute,
+		admin=True, leisure=False,
+		delete=False,
+	),
+	commands.register(
+		'tmute',
+		ihavenomouth.temp_mute,
+		admin=True, leisure=False,
+		delete=False,
+	),
+	commands.register(
+		'vote_mute',
+		f1984.vote_mute,
+		admin=False, leisure=True,
+		delete=False,
+		help='\t!vmute [@User]\n\tVotes to mute a user (3 votes required to mute). Requires the Trusted role.'
+	),
+	commands.register(
 		'vmute',
 		f1984.vote_mute,
 		admin=False, leisure=True,
 		delete=False,
 		help='\t!vmute [@User]\n\tVotes to mute a user (3 votes required to mute). Requires the Trusted role.'
+	),
+	commands.register(
+		'check_mute',
+		ihavenomouth.check_mute,
+		admin=False, leisure=True,
+		delete=False
 	),
 
 	commands.register(
@@ -194,6 +220,7 @@ async def on_ready():
 		await asyncio.sleep(5)
 		await handle_log(client)
 		lifebuoy.save_if_needed(client)
+		await ihavenomouth.check_mutes(client)
 
 	for message, _ in zip(back_log, range(10)):
 		await client.send_message(LOG_CHANNEL, message)

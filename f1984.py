@@ -92,7 +92,12 @@ async def vote_mute(client, message, prefix):
 	if len(added) > 0:
 		await client.send_message(message.author, f'The following changes were made: {added}')
 		
-
+	
+	
+	
+	
+	
+	
 	
 	
 	
