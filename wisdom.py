@@ -62,7 +62,7 @@ def count_time( stepIndex, time ):
 		WHERE time=?
 	""", (time,))
 	count = wcursor.fetchone()
-	return count[0] if count[0] != None else 0
+	return count[0] if count[0] is not None else 0
 
 	
 def save():
