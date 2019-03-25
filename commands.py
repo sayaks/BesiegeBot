@@ -17,8 +17,21 @@ if isinstance(OFF_TOPIC_ID, str):
 listed_commands = []
 admin_commands = []
 commands_help = []
+commands = []
 
-def register(name, command, leisure=True, admin=False, delete=True, help=''):
+def register(**kwargs):
+	"""
+	Takes a function and optional args, and generates a command from it
+	with the same name as that function. Then registers it into commands.
+	"""
+	def command(func):
+		(check, execute) = generate(func, **kwargs, help=func.__doc__)
+		commands.insert(0, (check, execute))
+		return execute
+	return command
+
+def generate(command, leisure=True, admin=False, delete=True, help=''):
+	name = command.__name__
 	admin_commands.append(name)
 	commands_help.append((name, help))
 	if not admin:
@@ -145,7 +158,11 @@ async def list_prefix(client, message, prefix):
 		f'Prefixes: {str(PREFIX)}'
 	)
 
+@register(leisure=True)
 async def help_command(client, message, prefix):
+	"""
+	\t!help [command]\n\tShows a list of available commands, or detailed help for the given command.
+	"""
 	c = message.content.strip().split(' ')
 	if len(c) == 2:
 		if not client.sent_by_admin(message) and not c[1] in listed_commands:

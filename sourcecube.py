@@ -4,7 +4,8 @@ import re
 import traceback
 
 import config
-import commands
+import commands as c
+from commands import commands
 from tokens import DISCORD_TOKEN as TOKEN
 
 import lifebuoy
@@ -34,7 +35,7 @@ mundane.SAVE = [
 back_log = []
 LOG_CHANNEL = None
 
-commands = [
+commands.append([
 	(
 		lambda m: (
 			m.channel.name == 'screenshots' or
@@ -44,123 +45,96 @@ commands = [
 	),
 
 	# Admin only commands
-	commands.register(
-		'reload',
+	c.generate(
 		mundane.reload,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'set_log',
+	c.generate(
 		mundane.set_log_channel,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'add_leisure',
-		commands.add_leisure_channel,
+	c.generate(
+		c.add_leisure_channel,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'delete_leisure',
-		commands.delete_leisure_channel,
+	c.generate(
+		c.delete_leisure_channel,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'add_prefix',
-		commands.add_prefix,
+	c.generate(
+		c.add_prefix,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'delete_prefix',
-		commands.delete_prefix,
+	c.generate(
+		c.delete_prefix,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'error',
+	c.generate(
 		mundane.do_raise_error,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'reset_karma',
+	c.generate(
 		karma.reset_karma,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'force_save',
+	c.generate(
 		lifebuoy.force_save,
 		admin=True, leisure=False,
 	),
-	commands.register(
-		'temp_ban',
+	c.generate(
 		ihavenomouth.temp_ban,
 		admin=True, leisure=False,
 		delete=False,
 	),
-	commands.register(
-		'tban',
+	c.generate(
 		ihavenomouth.temp_ban,
 		admin=True, leisure=False,
 		delete=False,
 	),
-	commands.register(
-		'temp_mute',
+	c.generate(
 		ihavenomouth.temp_mute,
 		admin=True, leisure=False,
 		delete=False,
 	),
-	commands.register(
-		'tmute',
+	c.generate(
 		ihavenomouth.temp_mute,
 		admin=True, leisure=False,
 		delete=False,
 	),
-	commands.register(
-		'vote_mute',
+	c.generate(
 		f1984.vote_mute,
 		admin=False, leisure=True,
 		delete=False,
 		help='\t!vmute [@User]\n\tVotes to mute a user (3 votes required to mute). Requires the Trusted role.'
 	),
-	commands.register(
-		'vmute',
+	c.generate(
 		f1984.vote_mute,
 		admin=False, leisure=True,
 		delete=False,
 		help='\t!vmute [@User]\n\tVotes to mute a user (3 votes required to mute). Requires the Trusted role.'
 	),
-	commands.register(
-		'check_mute',
+	c.generate(
 		ihavenomouth.check_mute,
 		admin=False, leisure=True,
 		delete=False
 	),
 
-	commands.register(
-		'zc',
+	c.generate(
 		leisure.zerochan_command,
 		admin=True,
 		help='\t!zc <tag> <description>\n\tTries (once) to post a random image from zerochan with the given tag.'
 	),
 	
-	# Commands for everyone to use
-	commands.register(
-		'help',
-		commands.help_command,
-		leisure=False,
-		help='\t!help [command]\n\tShows a list of available commands, or detailed help for the given command.'
-	),
-	commands.register(
-		'list_prefix',
-		commands.list_prefix,
+	c.generate(
+		c.list_prefix,
 		leisure=False,
 	),
-	commands.register(
-		'karma',
+	c.generate(
 		karma.send_karma_score,
 		leisure=False,
 		help='\t!karma\n\tShows your current karma score, and how much karma you\'ve given to others.'
 	),
-	commands.register(
-		'topkarma',
+	c.generate(
 		karma.top_karma,
 		delete=False,
 		help='\t!topkarma [@User1] [@User2] [@User3] ...\n\t' +
@@ -168,8 +142,7 @@ commands = [
 			'With one tagged user, shows the leaderboard but centered on the user\'s current placement.\n\t' +
 			'With multiple tagged users, just shows their current scores and rankings on the leaderboard.'
 	),
-	commands.register(
-		'hug', 
+	c.generate( 
 		leisure.hug_command,
 		delete=False,
 		help='\t!hug <@User1> [@User2] [@User3] ...\n\t' +
@@ -178,39 +151,34 @@ commands = [
 	),
 	
 	# Statistic commands
-	commands.register(
-		'hot', 
+	c.generate( 
 		globe.generate,
 		delete=False
 	),
 
 	# Some test commands to check that things are actually working
-	commands.register(
-		'testping',
-		commands.test_command,
+	c.generate(
+		c.test_command,
 		admin=True, leisure=False
 	),
-	commands.register(
-		'pingrich',
-		commands.test_rich_command,
+	c.generate(
+		c.test_rich_command,
 		admin=True, leisure=False
 	),
-	commands.register(
-		'testexcept',
-		commands.test_exception_command,
+	c.generate(
+		c.test_exception_command,
 		admin=True, leisure=False
 	),
 
 	# dragonhax
-	commands.register(
-		'dragonhax',
+	c.generate(
 		karma.dragonhax,
 		admin=True, leisure=False
 	),
 
 	(f1984.ip_check, f1984.remove_ip),
 	(karma.check_karma_legal, karma.parse_karma),
-]
+])
 
 client = discord.Client()
 client.exiting = False
