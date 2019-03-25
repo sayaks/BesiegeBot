@@ -30,8 +30,9 @@ def register(**kwargs):
 		return execute
 	return command
 
-def generate(command, leisure=True, admin=False, delete=True, help=''):
-	name = command.__name__
+def generate(command, name=None, leisure=True, admin=False, delete=True, help=''):
+	if name is None:
+		name = command.__name__
 	admin_commands.append(name)
 	commands_help.append((name, help))
 	if not admin:
