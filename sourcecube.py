@@ -8,11 +8,12 @@ import commands as c
 from commands import commands
 from tokens import DISCORD_TOKEN as TOKEN
 
+import imperator
 import lifebuoy
 import mundane
 import karma
 import f1984
-import leisure
+import imperator.leisure as leisure
 import wisdom
 import globe
 import ihavenomouth
