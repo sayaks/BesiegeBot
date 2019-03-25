@@ -90,6 +90,18 @@ commands = [
 		admin=True, leisure=False,
 	),
 	commands.register(
+		'temp_ban',
+		ihavenomouth.temp_ban,
+		admin=True, leisure=False,
+		delete=False,
+	),
+	commands.register(
+		'tban',
+		ihavenomouth.temp_ban,
+		admin=True, leisure=False,
+		delete=False,
+	),
+	commands.register(
 		'temp_mute',
 		ihavenomouth.temp_mute,
 		admin=True, leisure=False,
@@ -220,7 +232,7 @@ async def on_ready():
 		await asyncio.sleep(5)
 		await handle_log(client)
 		lifebuoy.save_if_needed(client)
-		await ihavenomouth.check_mutes(client)
+		await ihavenomouth.check_all(client)
 
 	for message, _ in zip(back_log, range(10)):
 		await client.send_message(LOG_CHANNEL, message)
